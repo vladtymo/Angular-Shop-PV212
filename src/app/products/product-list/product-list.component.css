@@ -5,3 +5,14 @@ table {
 .delete-icon {
     color: rgb(216, 50, 50);
 }
+
+table .image-cell img {
+    margin: 2px;
+    height: 50px;
+    vertical-align: middle;
+    transition: .2s;
+}
+
+table .image-cell img:hover {
+    transform: scale(3);
+}
