@@ -1,0 +1,50 @@
+<h1>Create New Product</h1>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+    <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="categoryId">
+            <mat-option value="1">Electronics</mat-option>
+            <mat-option value="2">Sport</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <div class="row">
+        <mat-form-field floatLabel="always">
+            <mat-label>Price</mat-label>
+            <input formControlName="price" matInput type="number" placeholder="0" />
+            <span matTextPrefix>$&nbsp;</span>
+            <span matTextSuffix>.00</span>
+        </mat-form-field>
+
+        <mat-form-field floatLabel="always">
+            <mat-label>Quantity</mat-label>
+            <input formControlName="quantity" matInput type="number" placeholder="0" />
+        </mat-form-field>
+
+        <mat-form-field floatLabel="always">
+            <mat-label>Discount</mat-label>
+            <input formControlName="discount" matInput type="number" placeholder="0" />
+            <span matTextPrefix>%&nbsp;</span>
+        </mat-form-field>
+    </div>
+
+    <mat-form-field>
+        <mat-label>Description</mat-label>
+        <textarea formControlName="description" matInput></textarea>
+    </mat-form-field>
+
+    <div class="row">
+        <button mat-raised-button>
+            <mat-icon>arrow_back</mat-icon>Back
+        </button>
+        <button mat-raised-button>
+            <mat-icon>add</mat-icon>Create
+        </button>
+    </div>
+</form>
