@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ProductDto, ProductsResponse } from '../products/product';
+import { ProductDto, ProductsResponse } from '../models/product';
 import { HttpClient } from '@angular/common/http';
 
 const fakeApi = "https://dummyjson.com/products";
-const api = "https://localhost:7198/api/";
+const myApi = "https://localhost:7198/api/";
+const api = "https://dummyjson.com/";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class ProductsService {
   constructor(private httpClient: HttpClient) { }
 
   getAll(): Observable<ProductDto[]> {
-    return this.httpClient.get<ProductDto[]>(this.controller + "all");
+    return this.httpClient.get<ProductDto[]>(this.controller);
   }
 
   get(id: number): Observable<ProductDto> {

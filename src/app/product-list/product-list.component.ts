@@ -1,13 +1,13 @@
-import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, ChangeDetectionStrategy, Component, inject, model, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { ApiProduct, ProductDto, ProductsResponse } from '../product';
-import { ProductsService } from '../../services/products.service';
+import { ProductDto } from '../models/product';
+import { ProductsService } from '../services/products.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 export interface DialogData {
   productName: string;
@@ -43,7 +43,7 @@ export class ProductListComponent implements AfterViewInit {
   }
 
   openDeleteDialog(name: string, id: number) {
-    const dialogRef = this.dialog.open(ConfirmDialog, {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '250px',
       enterAnimationDuration: '100ms',
       exitAnimationDuration: '100ms',
@@ -69,17 +69,4 @@ export class ProductListComponent implements AfterViewInit {
       verticalPosition: "top",
     });
   }
-}
-
-@Component({
-  selector: 'confirm-dialog',
-  templateUrl: './confirm-dialog.html',
-  standalone: true,
-  imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class ConfirmDialog {
-  readonly dialogRef = inject(MatDialogRef<ConfirmDialog>);
-  readonly data = inject<DialogData>(MAT_DIALOG_DATA);
-  readonly id = model(this.data.productId);
 }
