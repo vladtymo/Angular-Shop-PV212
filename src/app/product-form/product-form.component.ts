@@ -6,6 +6,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ProductsService } from '../services/products.service';
+import { CreateProductModel } from '../models/product';
 
 @Component({
   selector: 'app-product-form',
@@ -26,7 +29,11 @@ export class ProductFormComponent {
 
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar,
+    private productsService: ProductsService
+  ) {
     this.form = fb.group({
       name: ['', Validators.required],
       price: [0, Validators.required],
@@ -38,8 +45,30 @@ export class ProductFormComponent {
     });
   }
 
-  submit() {
-    console.log(this.form.value);
+  back() {
+    history.back();
+  }
 
+  openSnackBar(msg: string) {
+    this.snackBar.open(msg, "OK", {
+      horizontalPosition: "center",
+      verticalPosition: "top",
+    });
+  }
+
+  submit() {
+    if (!this.form.valid) {
+      this.openSnackBar("Invalid data.");
+      return;
+    }
+
+    const model = this.form.value as CreateProductModel;
+
+    console.log(model);
+
+    this.productsService.create(model).subscribe(x => {
+      this.openSnackBar("Product was created successfully.");
+      this.back();
+    });
   }
 }

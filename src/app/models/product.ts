@@ -24,3 +24,14 @@ export interface ProductDto {
     categoryName?: string;
     archived: boolean;
 }
+
+export interface CreateProductModel {
+    name: string;
+    imageUrl: string;
+    description?: string;
+    price: number;
+    discount: number;
+    quantity: number;
+    categoryId: number;
+    archived: boolean;
+}

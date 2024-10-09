@@ -7,6 +7,10 @@
         <input matInput formControlName="name">
     </mat-form-field>
     <mat-form-field>
+        <mat-label>Image URL</mat-label>
+        <input matInput formControlName="imageUrl">
+    </mat-form-field>
+    <mat-form-field>
         <mat-label>Category</mat-label>
         <mat-select formControlName="categoryId">
             <mat-option value="1">Electronics</mat-option>
@@ -40,10 +44,10 @@
     </mat-form-field>
 
     <div class="row">
-        <button mat-raised-button>
+        <button type="button" (click)="back()" mat-raised-button>
             <mat-icon>arrow_back</mat-icon>Back
         </button>
-        <button mat-raised-button>
+        <button type="submit" mat-raised-button>
             <mat-icon>add</mat-icon>Create
         </button>
     </div>
