@@ -28,10 +28,15 @@ export interface ProductDto {
 export interface CreateProductModel {
     name: string;
     imageUrl: string;
-    description?: string;
+    description: string | null;
     price: number;
     discount: number;
     quantity: number;
     categoryId: number;
     archived: boolean;
+}
+
+export interface CategoryModel {
+    id: number;
+    name: string;
 }

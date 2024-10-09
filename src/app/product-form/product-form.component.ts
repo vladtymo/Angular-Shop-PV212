@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductsService } from '../services/products.service';
-import { CreateProductModel } from '../models/product';
+import { CategoryModel, CreateProductModel } from '../models/product';
 
 @Component({
   selector: 'app-product-form',
@@ -25,12 +25,13 @@ import { CreateProductModel } from '../models/product';
   templateUrl: './product-form.component.html',
   styleUrl: './product-form.component.css'
 })
-export class ProductFormComponent {
+export class ProductFormComponent implements OnInit {
 
   form: FormGroup;
+  categories: CategoryModel[] = [];
 
   constructor(
-    private fb: FormBuilder,
+    fb: FormBuilder,
     private snackBar: MatSnackBar,
     private productsService: ProductsService
   ) {
@@ -40,8 +41,21 @@ export class ProductFormComponent {
       imageUrl: ['', Validators.required],
       discount: [0, [Validators.min(0), Validators.max(100)]],
       quantity: [0, [Validators.required, Validators.min(0)]],
-      description: ['', Validators.maxLength(2000)],
+      description: [null, Validators.maxLength(2000)],
       categoryId: [0, Validators.required]
+    });
+  }
+
+  // onChanges(): void {
+  //   this.form.get('description')?.valueChanges.subscribe(val => {
+  //     this.form.setValue() = `My name is ${val}.`;
+  //   });
+  // }
+
+  ngOnInit(): void {
+    this.productsService.getCategories().subscribe(data => {
+      console.log(data);
+      this.categories = data;
     });
   }
 
@@ -62,7 +76,10 @@ export class ProductFormComponent {
       return;
     }
 
-    const model = this.form.value as CreateProductModel;
+    let model = this.form.value as CreateProductModel;
+
+    if (model.description === "")
+      model.description = null; 
 
     console.log(model);
 
