@@ -62,6 +62,7 @@ export class ProductFormComponent implements OnInit {
       this.productsService.get(productId).subscribe(data => {
         this.product = data;
         this.form.patchValue(this.product);
+        this.form.controls["categoryId"].setValue(this.product.categoryId.toString());
       });
     }
   }
