@@ -8,7 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductsService } from '../services/products.service';
-import { CategoryModel, CreateProductModel } from '../models/product';
+import { CategoryModel, CreateProductModel, EditProductModel, ProductDto } from '../models/product';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product-form',
@@ -27,15 +28,19 @@ import { CategoryModel, CreateProductModel } from '../models/product';
 })
 export class ProductFormComponent implements OnInit {
 
+  product: ProductDto | null = null;
+  editMode: boolean = false;
   form: FormGroup;
   categories: CategoryModel[] = [];
 
   constructor(
     fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private route: ActivatedRoute
   ) {
     this.form = fb.group({
+      id: [0],
       name: ['', Validators.required],
       price: [0, Validators.required],
       imageUrl: ['', Validators.required],
@@ -46,17 +51,19 @@ export class ProductFormComponent implements OnInit {
     });
   }
 
-  // onChanges(): void {
-  //   this.form.get('description')?.valueChanges.subscribe(val => {
-  //     this.form.setValue() = `My name is ${val}.`;
-  //   });
-  // }
-
   ngOnInit(): void {
-    this.productsService.getCategories().subscribe(data => {
-      console.log(data);
-      this.categories = data;
-    });
+    this.productsService.getCategories().subscribe(data => this.categories = data);
+
+    const productId = Number(this.route.snapshot.paramMap.get('id'));
+
+    if (productId) {
+      this.editMode = true;
+
+      this.productsService.get(productId).subscribe(data => {
+        this.product = data;
+        this.form.patchValue(this.product);
+      });
+    }
   }
 
   back() {
@@ -76,16 +83,28 @@ export class ProductFormComponent implements OnInit {
       return;
     }
 
-    let model = this.form.value as CreateProductModel;
+    let model = this.form.value;
 
     if (model.description === "")
-      model.description = null; 
+      model.description = null;
 
     console.log(model);
 
-    this.productsService.create(model).subscribe(x => {
-      this.openSnackBar("Product was created successfully.");
-      this.back();
-    });
+    if (this.editMode) {
+      console.log(model as EditProductModel);
+      
+      this.productsService.edit(model as EditProductModel).subscribe(x => {
+        this.openSnackBar("Product was updated successfully.");
+        this.back();
+      });
+    }
+    else {
+      console.log(model as CreateProductModel);
+      
+      this.productsService.create(model as CreateProductModel).subscribe(x => {
+        this.openSnackBar("Product was created successfully.");
+        this.back();
+      });
+    }
   }
 }

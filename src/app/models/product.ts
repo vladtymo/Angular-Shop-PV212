@@ -36,6 +36,18 @@ export interface CreateProductModel {
     archived: boolean;
 }
 
+export interface EditProductModel {
+    id: number;
+    name: string;
+    imageUrl: string;
+    description: string | null;
+    price: number;
+    discount: number;
+    quantity: number;
+    categoryId: number;
+    archived: boolean;
+}
+
 export interface CategoryModel {
     id: number;
     name: string;

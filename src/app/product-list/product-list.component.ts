@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { RouterLink } from '@angular/router';
 
 export interface DialogData {
   productName: string;
@@ -17,7 +18,7 @@ export interface DialogData {
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [MatTableModule, MatIconModule, MatButtonModule, MatPaginatorModule],
+  imports: [MatTableModule, MatIconModule, MatButtonModule, MatPaginatorModule, RouterLink],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
@@ -40,6 +41,10 @@ export class ProductListComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+  }
+
+  edit(id: number) {
+
   }
 
   openDeleteDialog(name: string, id: number) {

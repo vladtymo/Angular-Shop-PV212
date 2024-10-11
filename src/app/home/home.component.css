@@ -1,0 +1,19 @@
+.card {
+    max-width: 400px;
+}
+.card img {
+    height: 200px;
+    object-fit: contain;
+    margin: 6px 0;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    /* flex-wrap: wrap; */
+}
+
+h3 {
+    text-align: center;
+}

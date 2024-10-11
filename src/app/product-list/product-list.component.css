@@ -5,6 +5,9 @@ table {
 .delete-icon {
     color: rgb(216, 50, 50);
 }
+.edit-icon {
+    color: rgb(216, 163, 50);
+}
 
 table .image-cell img {
     margin: 2px;

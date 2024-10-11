@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CategoryModel, CreateProductModel, ProductDto, ProductsResponse } from '../models/product';
+import { CategoryModel, CreateProductModel, EditProductModel, ProductDto, ProductsResponse } from '../models/product';
 import { HttpClient } from '@angular/common/http';
 
 const fakeApi = "https://dummyjson.com/products";
 const myApi = "https://localhost:7198/api/";
+const azureApi = "https://shop-pd212.azurewebsites.net/api/";
 const api = "https://localhost:7198/api/";
 
 @Injectable({
@@ -30,6 +31,10 @@ export class ProductsService {
 
   create(model: CreateProductModel): Observable<any> {
     return this.httpClient.post(this.controller, model);
+  }
+
+  edit(model: EditProductModel): Observable<any> {
+    return this.httpClient.put(this.controller, model);
   }
 
   delete(id: number): Observable<any> {
